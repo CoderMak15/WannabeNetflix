@@ -1,6 +1,6 @@
-﻿using Netflix.src;
+﻿using WannabeNetflix.src.roles;
 
-namespace WannabeNetflix.src
+namespace WannabeNetflix.src.movies
 {
     internal class Movie
     {
@@ -22,7 +22,20 @@ namespace WannabeNetflix.src
         internal string Name => _name;
         internal float Length => _length;
         internal string Synopsis => _synopsis;
-        internal List<Category> GetMovieCategories() => _categories;
         internal List<Actor> GetMovieActors() => _actors;
+        
+        internal string GetMovieCategories()
+        {
+            string categories = "";
+            for (int i = 0; i < _categories.Count; ++i)
+            {
+                Category c = _categories[i];
+                (string cName, _) = c.GetCategoryInfo();
+                categories += cName + (i == _categories.Count - 1 ? "" : ", ");
+            }
+
+            return categories;
+        }
+
     }
 }

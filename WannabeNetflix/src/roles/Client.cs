@@ -1,4 +1,6 @@
-﻿namespace Netflix.src
+﻿using Netflix.src;
+
+namespace WannabeNetflix.src.roles
 {
     internal class Client : Person
     {

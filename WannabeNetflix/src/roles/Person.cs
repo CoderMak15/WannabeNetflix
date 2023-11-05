@@ -1,4 +1,4 @@
-﻿namespace Netflix.src
+﻿namespace WannabeNetflix.src.roles
 {
     internal class Person
     {

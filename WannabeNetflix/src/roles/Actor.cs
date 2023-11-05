@@ -1,8 +1,8 @@
-﻿namespace Netflix.src
+﻿namespace WannabeNetflix.src.roles
 {
     internal struct MovieInfo
     {
-        public MovieInfo(string character, DateTime start, DateTime end, float salary) :this()
+        public MovieInfo(string character, DateTime start, DateTime end, float salary) : this()
         {
             _character = character;
             _start = start;
