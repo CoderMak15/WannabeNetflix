@@ -1,4 +1,6 @@
-﻿using WannabeNetflix.src.ui;
+﻿using System.ComponentModel.DataAnnotations;
+using WannabeNetflix.src.ui;
+using WannabeNetflix.src.utils;
 
 namespace WannabeNetflix.src.core
 {

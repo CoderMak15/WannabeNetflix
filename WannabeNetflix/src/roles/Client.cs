@@ -12,6 +12,15 @@ namespace WannabeNetflix.src.roles
             _creditCards = new List<CreditCard>();
         }
 
+        internal Client(Client client) : base(client.FirstName, client.LastName, client.Gender)
+        {
+            _time = client.Date;
+            _mail = client.Mail;
+            _password = client.Password;
+            _creditCards = new List<CreditCard>();
+        }
+
+
         private DateTime _time;
         private string _mail;
         private string _password;
@@ -27,6 +36,15 @@ namespace WannabeNetflix.src.roles
 
         internal void AddCreditCards(CreditCard c) { _creditCards.Add(c); }
         internal List<CreditCard> GetCreditCards() => _creditCards;
+
+        internal void OverrideClientInfo(Client client)
+        {
+            _firstName = client.FirstName;
+            _lastName = client.LastName;
+            _gender = client.Gender;
+            _mail = client.Mail;
+            _password = client.Password;
+        }
 
     }
 }

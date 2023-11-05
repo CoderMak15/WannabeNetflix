@@ -31,9 +31,13 @@
         {
             if (_uniqueForms.ContainsKey(form.GetType()))
             {
-                form.Close();
                 _activeForms.Remove(form);
                 _uniqueForms.Remove(form.GetType());
+            }
+
+            if(_uniqueForms.Count == 0)
+            {
+                Application.Exit();
             }
         }
 
@@ -43,6 +47,14 @@
             {
                 form.Visible = state;
             }
+        }
+
+        internal static Form GetForm<T>() where T : Form
+        {
+            if (!_uniqueForms.ContainsKey(typeof(T)))
+                return null;
+
+            return _uniqueForms[typeof(T)];
         }
     }
 }

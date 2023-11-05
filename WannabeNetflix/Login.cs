@@ -10,6 +10,11 @@ namespace WannabeNetflix
             InitializeComponent();
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            UI.CloseForm(this);
+        }
+
         private void log_btn_Click(object sender, EventArgs e)
         {
             string username = user_field.Text;
@@ -22,7 +27,7 @@ namespace WannabeNetflix
             {
                 AppManager.Instance.IsReadOnly = wrapper._employee.IsReadOnly;
                 UI.TryOpenForm<Main>();
-                UI.CloseForm(this);
+                Close();
             }
         }
     }

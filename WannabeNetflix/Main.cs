@@ -8,22 +8,36 @@ namespace WannabeNetflix
 {
     public partial class Main : Form
     {
-        private int _currentRow = -1;
+        private int _currentRow = 0;
 
         public Main()
         {
             bool isReadOnly = AppManager.Instance.IsReadOnly;
             InitializeComponent();
-            PopulateClientGrid();
+            UpdateClientGrid();
             PopulateMovieGrid();
             create_btn.Enabled = !isReadOnly;
             modify_btn.Enabled = !isReadOnly;
             delete_btn.Enabled = !isReadOnly;
         }
 
-        private void PopulateClientGrid()
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if(UI.GetForm<Login>() == null)
+            {
+                UI.TryOpenForm<Login>();
+            }
+            UI.CloseForm(this);
+        }
+
+        private void UpdateClientGrid()
         {
             DataGridView dt = clientDataGrid;
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
+            {
+                dt.Rows.RemoveAt(i);
+            }
+
             List<Client> clients = AppManager.Instance.ClientManager.GetClients();
             for (int i = 0; i < clients.Count; i++)
             {
@@ -48,7 +62,7 @@ namespace WannabeNetflix
         private void dc_btn_Click(object sender, EventArgs e)
         {
             UI.TryOpenForm<Login>();
-            UI.CloseForm(this);
+            Close();
         }
 
         private void clientDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -63,7 +77,17 @@ namespace WannabeNetflix
 
         private void modify_btn_Click(object sender, EventArgs e)
         {
+            if (_currentRow == -1)
+                return;
 
+            string mail = (string)clientDataGrid.Rows[_currentRow].Cells[2].Value;
+            Client client = AppManager.Instance.ClientManager.GetClientByMail(mail);
+            
+            if (client == null)
+                return;
+
+            Modify popup = UI.TryOpenForm<Modify>();
+            popup?.Init(client, UpdateClientGrid);
         }
 
         private void delete_btn_Click(object sender, EventArgs e)
@@ -72,12 +96,14 @@ namespace WannabeNetflix
                 return;
 
             Delete popup = UI.TryOpenForm<Delete>();
+
             if (popup != null)
             {
                 popup.SetCloseEvent(() =>
                 {
+                    string mail  = (string)clientDataGrid.Rows[_currentRow].Cells[2].Value;
+                    AppManager.Instance.ClientManager.RemoveClient(mail);
                     clientDataGrid.Rows.RemoveAt(_currentRow);
-                    AppManager.Instance.ClientManager.RemoveClientAt(_currentRow);
                     _currentRow = -1;
                 });
             }
