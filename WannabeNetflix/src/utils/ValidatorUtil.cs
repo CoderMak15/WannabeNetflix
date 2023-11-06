@@ -1,12 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using WannabeNetflix.src.core;
-using WannabeNetflix.src.roles;
 
 namespace WannabeNetflix.src.utils
 {
-    internal class ValidatorUtil
+    public class ValidatorUtil
     {
-        internal static string ValidateMail(string mail)
+        public static string ValidateMail(string mail)
         {
             if (AppManager.Instance.ClientManager.DoesMailExists(mail))
                 return Error.MAIL_EXISTS;
@@ -16,7 +15,7 @@ namespace WannabeNetflix.src.utils
             return match.Success ? Error.NONE : Error.INVALID_MAIL;
         }
 
-        internal static string ValidatePassword(string password)
+        public static string ValidatePassword(string password)
         {
             return password.Length >= 8 ? Error.NONE : Error.PW_TOO_SHORT;
         }

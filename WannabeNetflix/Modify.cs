@@ -5,20 +5,16 @@ using WannabeNetflix.src.utils;
 
 namespace WannabeNetflix
 {
-    public partial class Modify : Form
+    public partial class Modify : Creation
     {
         private Client _client;
-        private Client _mockClient;
-        private bool _invalidMail = false;
-        private bool _invalidPW = false;
-        private Action _onClose;
 
         public Modify()
         {
             InitializeComponent();
         }
 
-        internal void Init(Client client, Action onClose)
+        internal override void Init(Action onClose, Client client = null)
         {
             _onClose = onClose;
             _client = client;
@@ -29,11 +25,17 @@ namespace WannabeNetflix
             gender_txt.Text = _client.Gender;
             mail_txt.Text = _client.Mail;
 
-            fName_txt.Leave += (_, _) => { CheckForInputChange(fName_txt.Text, _mockClient.FirstName, _mockClient.SetFirstName); };
-            lName_txt.Leave += (_, _) => { CheckForInputChange(lName_txt.Text, _mockClient.LastName, _mockClient.SetLastName); };
-            gender_txt.Leave += (_, _) => { CheckForInputChange(gender_txt.Text, _mockClient.Gender, _mockClient.SetGender); };
+            fName_txt.Leave += (_, _) => { CheckForInputChange(fName_txt.Text, _mockClient.FirstName, _mockClient.SetFirstName, (int)CreationField.firstName); };
+            lName_txt.Leave += (_, _) => { CheckForInputChange(lName_txt.Text, _mockClient.LastName, _mockClient.SetLastName, (int)CreationField.lastName); };
+            gender_txt.Leave += (_, _) => { CheckForInputChange(gender_txt.Text, _mockClient.Gender, _mockClient.SetGender, (int)CreationField.gender); };
+
             mail_txt.Leave += CheckForEmailChange;
             pw_txt.Leave += CheckForPasswordChange;
+
+            create_btn.Text = "Save";
+            exit_btn.Text = "Cancel";
+
+            _creationFlags = new bool[] { true, true, true, true, true };
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -45,18 +47,31 @@ namespace WannabeNetflix
             _mockClient = null;
         }
 
-        private void save_btn_Click(object sender, EventArgs e)
+        protected override void CheckForInputChange(string input, string oldValue, Action<string> onValueChanged, int index)
+        {
+            if (input != oldValue && input != "")
+            {
+                onValueChanged?.Invoke(input);
+                _creationFlags[index] = true;
+            }
+            else if(input == "")
+            {
+                _creationFlags[index] = false;
+            }
+        }
+
+        protected override void create_btn_Click(object sender, EventArgs e)
         {
             string error = Error.NONE;
-            if (_invalidMail && _invalidPW)
+            if (!_creationFlags[(int)CreationField.mail] && !_creationFlags[(int)CreationField.password])
             {
                 error = Error.SAVE_UNAVAILABLE;
             }
-            else if (_invalidMail)
+            else if (!_creationFlags[(int)CreationField.mail])
             {
                 error = Error.NO_SAVE_MAIL;
             }
-            else if (_invalidPW)
+            else if (!_creationFlags[(int)CreationField.password])
             {
                 error = Error.NO_SAVE_PW;
             }
@@ -78,43 +93,39 @@ namespace WannabeNetflix
             Close();
         }
 
-        private void cancel_btn_Click(object sender, EventArgs e)
+        protected override void exit_btn_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void CheckForInputChange(string input, string oldValue, Action<string> onValueChanged)
+        protected override void CheckForEmailChange(object sender, EventArgs e)
         {
-            if (input != oldValue)
-                onValueChanged?.Invoke(input);
-        }
+            if (mail_txt.Text == _client.Mail)
+            {
+                _creationFlags[(int)CreationField.mail] = true;
+                return;
+            }
 
-        private void CheckForEmailChange(object sender, EventArgs e)
-        {
             if (mail_txt.Text != _mockClient.Mail)
             {
                 string error = ValidatorUtil.ValidateMail(mail_txt.Text);
                 if (error != "")
                 {
                     error_lbl.Text = error;
-                    _invalidMail = true;
+                    _creationFlags[(int)CreationField.mail] = false;
                 }
                 else
                 {
                     _mockClient.SetMail(mail_txt.Text);
-                    _invalidMail = false;
+                    _creationFlags[(int)CreationField.mail] = true;
                 }
             }
         }
 
-        private void CheckForPasswordChange(object sender, EventArgs e)
+        protected override void CheckForPasswordChange(object sender, EventArgs e)
         {
             if (pw_txt.Text == "")
-            {
-                error_lbl.Text = Error.NONE;
-                _invalidPW = false;
                 return;
-            }
 
             string encryptedPw = Encryption.MD5Hash(pw_txt.Text);
             if (encryptedPw != _mockClient.Password)
@@ -123,12 +134,12 @@ namespace WannabeNetflix
                 if (error != "")
                 {
                     error_lbl.Text = error;
-                    _invalidPW = true;
+                    _creationFlags[(int)CreationField.password] = false;
                 }
                 else
                 {
                     _mockClient.SetPassword(Encryption.MD5Hash(encryptedPw));
-                    _invalidPW = false;
+                    _creationFlags[(int)CreationField.password] = true;
                 }
             }
         }

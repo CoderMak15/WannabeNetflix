@@ -5,6 +5,11 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannabeNetflix", "WannabeNetflix.csproj", "{C134791C-FEDE-4B4B-AFCA-886C10A3BEE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{6B73F5C9-8B55-4040-ABC2-70F49173D20E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C134791C-FEDE-4B4B-AFCA-886C10A3BEE9} = {C134791C-FEDE-4B4B-AFCA-886C10A3BEE9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{C134791C-FEDE-4B4B-AFCA-886C10A3BEE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C134791C-FEDE-4B4B-AFCA-886C10A3BEE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C134791C-FEDE-4B4B-AFCA-886C10A3BEE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B73F5C9-8B55-4040-ABC2-70F49173D20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B73F5C9-8B55-4040-ABC2-70F49173D20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B73F5C9-8B55-4040-ABC2-70F49173D20E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B73F5C9-8B55-4040-ABC2-70F49173D20E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

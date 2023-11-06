@@ -3,7 +3,7 @@ using WannabeNetflix.src.utils;
 
 namespace WannabeNetflix.src.core
 {
-    internal struct EmployeePayload
+    public struct EmployeePayload
     {
         internal EmployeePayload(string error, Employee? employee)
         {
@@ -15,12 +15,12 @@ namespace WannabeNetflix.src.core
         internal Employee? _employee;
     }
 
-    internal class EmployeeManager
+    public class EmployeeManager
     {
-        internal Dictionary<string, Employee> GetEmployees() => _employees;
+        public Dictionary<string, Employee> GetEmployees() => _employees;
         private Dictionary<string, Employee> _employees;
 
-        internal EmployeeManager()
+        public EmployeeManager()
         {
             _employees = PopulateEmployees();
         }
@@ -36,7 +36,7 @@ namespace WannabeNetflix.src.core
             };
         }
 
-        internal EmployeePayload TryGetEmployee(string username, string password)
+        public EmployeePayload TryGetEmployee(string username, string password)
         {
             if (_employees.TryGetValue(username, out Employee? employee))
             {

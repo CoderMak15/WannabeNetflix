@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.clientDataGrid = new System.Windows.Forms.DataGridView();
             this.firstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +41,7 @@
             this.modify_btn = new System.Windows.Forms.Button();
             this.dc_btn = new System.Windows.Forms.Button();
             this.delete_btn = new System.Windows.Forms.Button();
+            this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.clientDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moviesDataGrid)).BeginInit();
             this.SuspendLayout();
@@ -59,6 +61,7 @@
             this.clientDataGrid.Name = "clientDataGrid";
             this.clientDataGrid.ReadOnly = true;
             this.clientDataGrid.RowTemplate.Height = 25;
+            this.clientDataGrid.ShowCellToolTips = false;
             this.clientDataGrid.Size = new System.Drawing.Size(500, 200);
             this.clientDataGrid.TabIndex = 0;
             this.clientDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientDataGrid_CellContentClick);
@@ -98,6 +101,7 @@
             this.moviesDataGrid.Name = "moviesDataGrid";
             this.moviesDataGrid.ReadOnly = true;
             this.moviesDataGrid.RowTemplate.Height = 25;
+            this.moviesDataGrid.ShowCellToolTips = false;
             this.moviesDataGrid.Size = new System.Drawing.Size(500, 200);
             this.moviesDataGrid.TabIndex = 1;
             // 
@@ -195,5 +199,6 @@
         private DataGridViewTextBoxColumn Movie;
         private DataGridViewTextBoxColumn Length;
         private DataGridViewTextBoxColumn Categories;
+        private ToolTip tooltip;
     }
 }

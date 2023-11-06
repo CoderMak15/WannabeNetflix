@@ -4,27 +4,31 @@ using WannabeNetflix.src.utils;
 
 namespace WannabeNetflix.src.core
 {
-    internal class AppManager
+    public class AppManager
     {
-        internal static AppManager Instance => _instance;
+        public static AppManager Instance => _instance;
         private static AppManager _instance;
-        
-        internal bool IsReadOnly { get; set; }
 
-        internal EmployeeManager EmployeeManager => _employeeMgr;
-        internal ClientManager ClientManager => _clientMgr;
-        internal MovieManager MovieManager => _movieMgr;
+        public bool IsReadOnly { get; set; }
+
+        public EmployeeManager EmployeeManager => _employeeMgr;
+        public ClientManager ClientManager => _clientMgr;
+        public MovieManager MovieManager => _movieMgr;
 
         private EmployeeManager _employeeMgr;
         private ClientManager _clientMgr;
         private MovieManager _movieMgr;
 
-        public AppManager()
+        public AppManager(bool isMock = false)
         {
             _instance = this;
             _employeeMgr = new EmployeeManager();
             _clientMgr = new ClientManager();
             _movieMgr = new MovieManager();
+
+            if (isMock)
+                return;
+
             UI.TryOpenForm<Login>();
         }
     }

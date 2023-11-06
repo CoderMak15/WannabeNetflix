@@ -1,8 +1,8 @@
 ﻿namespace Netflix.src
 {
-    internal class CreditCard
+    public class CreditCard
     {
-        internal CreditCard(int number, DateTime expiry, int pin)
+        public CreditCard(int number, DateTime expiry, int pin)
         {
             _number = number;
             _expiry = expiry;

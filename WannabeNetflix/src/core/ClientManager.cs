@@ -4,9 +4,9 @@ using WannabeNetflix.src.utils;
 
 namespace WannabeNetflix.src.core
 {
-    internal class ClientManager
-    {      
-        internal List<Client> GetClients() => _clients;
+    public class ClientManager
+    {
+        public List<Client> GetClients() => _clients;
         private List<Client> _clients = new List<Client>();
         private Dictionary<string, Client> _uniqueAddressesMap = new Dictionary<string, Client>();
 
@@ -31,7 +31,7 @@ namespace WannabeNetflix.src.core
             return new List<Client> { c1, c2, c3, c4 };
         }
 
-        internal void RemoveClient(string mail)
+        public void RemoveClient(string mail)
         {
             for (int i = _clients.Count - 1; i >= 0; i--)
             {
@@ -39,34 +39,34 @@ namespace WannabeNetflix.src.core
                 if (client.Mail == mail)
                 {
                     _clients.RemoveAt(i);
+                    _uniqueAddressesMap.Remove(client.Mail);
                     return;
                 }
             }
         }
 
-        internal bool DoesMailExists(string mail)
+        public bool DoesMailExists(string mail)
         {
             return _uniqueAddressesMap.ContainsKey(mail);
         }
 
-        internal Client GetClientByMail(string mail)
+        public Client GetClientByMail(string mail)
         {
             Client client;
             _uniqueAddressesMap.TryGetValue(mail, out client);
             return client;
         }
 
-        internal string CreateClient(Client client)
+        public void CreateClient(Client client)
         {
-            return Error.NONE;
+            if (client == null)
+                return;
+
+            _clients.Add(client);
+            _uniqueAddressesMap.Add(client.Mail, client);
         }
 
-        internal string ModifyClient(Client client)
-        {
-            return Error.NONE;
-        }
-
-        internal void UpdateClientMail(Client client, string oldMail)
+        public void UpdateClientMail(Client client, string oldMail)
         {
             _uniqueAddressesMap.Add(client.Mail, client);
             _uniqueAddressesMap.Remove(oldMail);

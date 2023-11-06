@@ -2,9 +2,11 @@
 
 namespace WannabeNetflix.src.roles
 {
-    internal class Client : Person
+    public class Client : Person
     {
-        internal Client(string fName, string lName, string gender, DateTime time, string mail, string password) : base(fName, lName, gender)
+        public Client() : base() { }
+
+        public Client(string fName, string lName, string gender, DateTime time, string mail, string password) : base(fName, lName, gender)
         {
             _time = time;
             _mail = mail;
@@ -12,7 +14,7 @@ namespace WannabeNetflix.src.roles
             _creditCards = new List<CreditCard>();
         }
 
-        internal Client(Client client) : base(client.FirstName, client.LastName, client.Gender)
+        public Client(Client client) : base(client.FirstName, client.LastName, client.Gender)
         {
             _time = client.Date;
             _mail = client.Mail;
@@ -26,18 +28,18 @@ namespace WannabeNetflix.src.roles
         private string _password;
         private List<CreditCard> _creditCards;
 
-        internal DateTime Date => _time;
-        internal string Mail => _mail;
-        internal string Password => _password;
+        public DateTime Date => _time;
+        public string Mail => _mail;
+        public string Password => _password;
 
-        internal void SetDate(DateTime date) { _time = date; }
-        internal void SetMail(string mail) { _mail = mail; }
-        internal void SetPassword(string pw) { _password = pw; }
+        public void SetDate(DateTime date) { _time = date; }
+        public void SetMail(string mail) { _mail = mail; }
+        public void SetPassword(string pw) { _password = pw; }
 
-        internal void AddCreditCards(CreditCard c) { _creditCards.Add(c); }
-        internal List<CreditCard> GetCreditCards() => _creditCards;
+        public void AddCreditCards(CreditCard c) { _creditCards.Add(c); }
+        public List<CreditCard> GetCreditCards() => _creditCards;
 
-        internal void OverrideClientInfo(Client client)
+        public void OverrideClientInfo(Client client)
         {
             _firstName = client.FirstName;
             _lastName = client.LastName;

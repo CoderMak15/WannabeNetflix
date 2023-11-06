@@ -2,9 +2,9 @@
 
 namespace WannabeNetflix.src.movies
 {
-    internal class Movie
+    public class Movie
     {
-        internal Movie(string name, float length, string synopsis, List<Actor>? actors = null, List<Category>? categories = null)
+        public Movie(string name, float length, string synopsis, List<Actor>? actors = null, List<Category>? categories = null)
         {
             _name = name;
             _length = length;
@@ -19,12 +19,12 @@ namespace WannabeNetflix.src.movies
         private List<Actor> _actors;
         private List<Category> _categories;
 
-        internal string Name => _name;
-        internal float Length => _length;
-        internal string Synopsis => _synopsis;
-        internal List<Actor> GetMovieActors() => _actors;
-        
-        internal string GetMovieCategories()
+        public string Name => _name;
+        public float Length => _length;
+        public string Synopsis => _synopsis;
+        public List<Actor> GetMovieActors() => _actors;
+
+        public string GetMovieCategories()
         {
             string categories = "";
             for (int i = 0; i < _categories.Count; ++i)

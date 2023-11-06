@@ -1,8 +1,8 @@
 ﻿namespace WannabeNetflix.src.roles
 {
-    internal class Employee
+    public class Employee
     {
-        internal Employee(DateTime start, string userName, string password, bool readOnly)
+        public Employee(DateTime start, string userName, string password, bool readOnly)
         {
             _start = start;
             _userName = userName;
@@ -15,9 +15,9 @@
         private string _password;
         private bool _readOnly;
 
-        internal DateTime JobDebut => _start;
-        internal string UserName => _userName;
-        internal string Password => _password;
-        internal bool IsReadOnly => _readOnly;
+        public DateTime JobDebut => _start;
+        public string UserName => _userName;
+        public string Password => _password;
+        public bool IsReadOnly => _readOnly;
     }
 }

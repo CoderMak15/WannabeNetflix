@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using Microsoft.VisualBasic.Devices;
+using System.CodeDom;
 using WannabeNetflix.src.core;
 using WannabeNetflix.src.movies;
 using WannabeNetflix.src.roles;
@@ -9,6 +10,7 @@ namespace WannabeNetflix
     public partial class Main : Form
     {
         private int _currentRow = 0;
+        private int _currentMovieRow = -1;
 
         public Main()
         {
@@ -19,11 +21,14 @@ namespace WannabeNetflix
             create_btn.Enabled = !isReadOnly;
             modify_btn.Enabled = !isReadOnly;
             delete_btn.Enabled = !isReadOnly;
+            moviesDataGrid.MouseHover += movieDataGrid_mouseHover;
+            moviesDataGrid.CellMouseEnter += movieDataGrid_CellMouseEnter;
+            moviesDataGrid.CellMouseLeave += movieDataGrid_CellMouseLeave;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if(UI.GetForm<Login>() == null)
+            if (UI.GetForm<Login>() == null)
             {
                 UI.TryOpenForm<Login>();
             }
@@ -59,10 +64,37 @@ namespace WannabeNetflix
             }
         }
 
-        private void dc_btn_Click(object sender, EventArgs e)
+        private void movieDataGrid_mouseHover(object sender, EventArgs e)
         {
-            UI.TryOpenForm<Login>();
-            Close();
+            if (_currentMovieRow == -1)
+                return;
+
+            foreach (Movie movie in AppManager.Instance.MovieManager.GetMovies())
+            {
+                if (movie.Name == (string)moviesDataGrid.Rows[_currentMovieRow].Cells[0].Value)
+                {
+                    tooltip.Show(movie?.Synopsis, moviesDataGrid);
+                }
+            }
+
+        }
+
+        //when mouse is over cell
+        private void movieDataGrid_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                _currentMovieRow = e.RowIndex;
+            }
+        }
+        //when mouse is leaving cell
+        private void movieDataGrid_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == _currentMovieRow)
+                return;
+
+            _currentMovieRow = -1;
+            tooltip.Hide(moviesDataGrid);
         }
 
         private void clientDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -70,9 +102,16 @@ namespace WannabeNetflix
             _currentRow = e.RowIndex;
         }
 
+        private void dc_btn_Click(object sender, EventArgs e)
+        {
+            UI.TryOpenForm<Login>();
+            Close();
+        }
+
         private void create_btn_Click(object sender, EventArgs e)
         {
-
+            Creation popup = UI.TryOpenForm<Creation>();
+            popup?.Init(UpdateClientGrid);
         }
 
         private void modify_btn_Click(object sender, EventArgs e)
@@ -87,7 +126,7 @@ namespace WannabeNetflix
                 return;
 
             Modify popup = UI.TryOpenForm<Modify>();
-            popup?.Init(client, UpdateClientGrid);
+            popup?.Init(UpdateClientGrid, client);
         }
 
         private void delete_btn_Click(object sender, EventArgs e)

@@ -1,8 +1,10 @@
 ﻿namespace WannabeNetflix.src.roles
 {
-    internal class Person
+    public class Person
     {
-        internal Person(string fName, string lName, string gender)
+        public Person() { }
+
+        public Person(string fName, string lName, string gender)
         {
             _firstName = fName;
             _lastName = lName;
@@ -13,12 +15,12 @@
         protected string _lastName;
         protected string _gender;
 
-        internal string FirstName => _firstName;
-        internal string LastName => _lastName;
-        internal string Gender => _gender;
+        public string FirstName => _firstName;
+        public string LastName => _lastName;
+        public string Gender => _gender;
 
-        internal void SetFirstName(string fName) { _firstName = fName; }
-        internal void SetLastName(string lName) { _lastName = lName; }
-        internal void SetGender(string gender) { _gender = gender; }
+        public void SetFirstName(string fName) { _firstName = fName; }
+        public void SetLastName(string lName) { _lastName = lName; }
+        public void SetGender(string gender) { _gender = gender; }
     }
 }
