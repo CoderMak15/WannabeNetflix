@@ -9,12 +9,25 @@ namespace UnitTests
         AppManager app = new AppManager(true);
         Client c = new Client("Steve", "Jobs", "gender", DateTime.Now, "steve.jobs@apple.com", "apple123");
 
+
         [TestMethod]
         public void CreateClientTest()
         {
             int clientCount = AppManager.Instance.ClientManager.GetClients().Count;
             AppManager.Instance.ClientManager.CreateClient(c);
             Assert.AreEqual(clientCount + 1, AppManager.Instance.ClientManager.GetClients().Count);
+        }
+
+        [TestMethod]
+        public void ModifyClientTest()
+        {
+            AppManager.Instance.ClientManager.CreateClient(c);
+            Client client = AppManager.Instance.ClientManager.GetClientByMail("steve.jobs@apple.com");
+            Client overrideClient = new Client(client.FirstName, client.LastName, client.Gender, DateTime.Now, "test@gmail.com", client.Password);
+            client.OverrideClientInfo(overrideClient);
+            AppManager.Instance.ClientManager.UpdateClientMail(client, "steve.jobs@apple.com");
+            Client client3 = AppManager.Instance.ClientManager.GetClientByMail("steve.jobs@apple.com");
+            Assert.IsTrue(client != null && client3 == null);
         }
 
         [TestMethod]

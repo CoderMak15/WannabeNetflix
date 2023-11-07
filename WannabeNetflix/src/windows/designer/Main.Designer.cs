@@ -101,7 +101,6 @@
             this.moviesDataGrid.Name = "moviesDataGrid";
             this.moviesDataGrid.ReadOnly = true;
             this.moviesDataGrid.RowTemplate.Height = 25;
-            this.moviesDataGrid.ShowCellToolTips = false;
             this.moviesDataGrid.Size = new System.Drawing.Size(500, 200);
             this.moviesDataGrid.TabIndex = 1;
             // 

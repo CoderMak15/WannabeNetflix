@@ -39,13 +39,15 @@ namespace WannabeNetflix.src.roles
         public void AddCreditCards(CreditCard c) { _creditCards.Add(c); }
         public List<CreditCard> GetCreditCards() => _creditCards;
 
-        public void OverrideClientInfo(Client client)
+        public Client OverrideClientInfo(Client client)
         {
             _firstName = client.FirstName;
             _lastName = client.LastName;
             _gender = client.Gender;
             _mail = client.Mail;
             _password = client.Password;
+
+            return this;
         }
 
     }

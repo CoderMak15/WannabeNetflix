@@ -10,7 +10,6 @@ namespace WannabeNetflix
     public partial class Main : Form
     {
         private int _currentRow = 0;
-        private int _currentMovieRow = -1;
 
         public Main()
         {
@@ -21,9 +20,6 @@ namespace WannabeNetflix
             create_btn.Enabled = !isReadOnly;
             modify_btn.Enabled = !isReadOnly;
             delete_btn.Enabled = !isReadOnly;
-            moviesDataGrid.MouseHover += movieDataGrid_mouseHover;
-            moviesDataGrid.CellMouseEnter += movieDataGrid_CellMouseEnter;
-            moviesDataGrid.CellMouseLeave += movieDataGrid_CellMouseLeave;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -61,40 +57,10 @@ namespace WannabeNetflix
                 Movie m = movies[i];
                 object[] content = { m.Name, m.Length, m.GetMovieCategories() };
                 dt.Rows.Add(content);
+                dt.Rows[i].Cells[0].ToolTipText = m.Synopsis;
+                dt.Rows[i].Cells[1].ToolTipText = m.Synopsis;
+                dt.Rows[i].Cells[2].ToolTipText = m.Synopsis;
             }
-        }
-
-        private void movieDataGrid_mouseHover(object sender, EventArgs e)
-        {
-            if (_currentMovieRow == -1)
-                return;
-
-            foreach (Movie movie in AppManager.Instance.MovieManager.GetMovies())
-            {
-                if (movie.Name == (string)moviesDataGrid.Rows[_currentMovieRow].Cells[0].Value)
-                {
-                    tooltip.Show(movie?.Synopsis, moviesDataGrid);
-                }
-            }
-
-        }
-
-        //when mouse is over cell
-        private void movieDataGrid_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                _currentMovieRow = e.RowIndex;
-            }
-        }
-        //when mouse is leaving cell
-        private void movieDataGrid_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex == _currentMovieRow)
-                return;
-
-            _currentMovieRow = -1;
-            tooltip.Hide(moviesDataGrid);
         }
 
         private void clientDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
